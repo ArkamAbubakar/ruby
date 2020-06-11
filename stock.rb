@@ -9,6 +9,5 @@ def stock_picker(arr)
 			end
 		end
 	end
-	puts toReturn
-	return
+	toReturn
 end
