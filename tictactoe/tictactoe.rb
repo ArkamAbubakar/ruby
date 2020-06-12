@@ -49,6 +49,7 @@ class Board
 	end
 
 	def play
+		puts "\nWelcome to Tic Tac Toe!\n\nA game where 2 players alternate in choosing locations on a 3x3 grid\nuntil one gets three in a row!"
 		while @open_squares > 0 do
 			@open_squares % 2 == 1 ? player_move(1) : player_move(2)
       winner = check_win
@@ -59,6 +60,7 @@ class Board
 				return
 			end
 		end
+		puts "Draw!"
 	end
 end
 
