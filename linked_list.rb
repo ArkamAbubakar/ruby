@@ -150,17 +150,3 @@ class Node
     @next_node = next_node
   end
 end
-
-
-list = LinkedList.new
-
-list.append(5)
-list.prepend(10)
-list.prepend(7)
-list.append(13)
-
-puts list
-
-list.remove_at(3)
-
-puts list
