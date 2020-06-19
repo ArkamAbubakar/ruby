@@ -2,7 +2,7 @@ class Tree
   attr_reader :root
 
   def initialize(arr=[])
-    @root = build_tree(arr)
+    @root = build_tree(setup_array(arr.sort))
     @values = arr
   end
 
@@ -231,14 +231,14 @@ class Tree
       rebalance!(root.left)
       rebalance!(root.right)
     else
-      root.left = build_tree(setup_array(inorder(root.left)))
-      root.right = build_tree(setup_array(inorder(root.right)))
+      root.left = build_tree(setup_array(inorder(root.left).map {|elem| elem.data}))
+      root.right = build_tree(setup_array(inorder(root.right).map {|elem| elem.data}))
     end
   end
 
   def setup_array(arr, ret=[])
     return if arr.length == 0
-    ret << arr[arr.length/2].data
+    ret << arr[arr.length/2]
     return if arr.length == 1
 
     setup_array(arr[0..arr.length/2-1], ret)
@@ -258,8 +258,38 @@ class Node
   end
 end
 
-t = Tree.new([5, 6, 7, 9, 8, 4, 3, 2, 1])
+# 1. 
+puts "\nCreating balanced BST..."
+bst = Tree.new(Array.new(15) {rand(1..100)})
 
-t.rebalance!(t.root)
+# 2.
+puts "Balanced? #{bst.balanced?}"
 
-puts t.level_order.map {|elem| elem.data}.join(", ")
+# 3.
+puts "\nLevel order\n" + bst.level_order.map {|elem| elem.data}.join(", ")
+puts "Inorder\n" + bst.inorder.map {|elem| elem.data}.join(", ")
+puts "Preorder\n" + bst.preorder.map {|elem| elem.data}.join(", ")
+puts "Postorder\n" + bst.postorder.map {|elem| elem.data}.join(", ")
+
+# 4.
+puts "\nputting in nums > 100 to make it unbalanced"
+bst.insert(101)
+bst.insert(102)
+bst.insert(103)
+bst.insert(104)
+
+# 5.
+puts "Balanced? #{bst.balanced?}"
+
+# 6.
+puts "\nRunning the rebalance method"
+bst.rebalance!
+
+# 7.
+puts "Balanced? #{bst.balanced?}"
+
+# 8.
+puts "\nLevel order\n" + bst.level_order.map {|elem| elem.data}.join(", ")
+puts "Inorder\n" + bst.inorder.map {|elem| elem.data}.join(", ")
+puts "Preorder\n" + bst.preorder.map {|elem| elem.data}.join(", ")
+puts "Postorder\n" + bst.postorder.map {|elem| elem.data}.join(", ")
