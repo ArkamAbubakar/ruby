@@ -48,9 +48,8 @@ def knight_moves(start, last)
   loop do
     k = Knight.new(queue[0].data)
     k.all_moves.each do |elem|
-      queue << Node.new(elem, queue[0].sequence.push(elem))
-      queue.each {|thing| print "#{thing.data}, "}
-      puts ""
+      new_sequence = Array.new(queue[0].sequence)
+      queue << Node.new(elem, new_sequence.push(elem))
     end
 
     shift = queue.shift
