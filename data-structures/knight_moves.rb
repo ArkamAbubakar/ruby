@@ -1,11 +1,10 @@
 class Knight
-  def initialize(row, col)
-    unless row > 7 || col > 7 || row < 0 || col < 0
-      @row = row
-      @col = col
+
+  def initialize(coord)
+    if is_valid_square(coord[0], coord[1])
+      @coord = coord
     else
-      @row = 0
-      @col = 0
+      @coord = [0, 0]
     end
   end
 
@@ -16,9 +15,9 @@ class Knight
       -2.upto(2) do |y|
         next if y == 0
         unless x.abs - y.abs == 0
-          newx = @row+y
-          newy = @col+x
-          if newx >= 0 && newx <= 7 && newy >= 0 && newy <= 7
+          newx = @coord[0]+y
+          newy = @coord[1]+x
+          if is_valid_square(newx, newy)
             to_ret << [newx, newy]
           end
         end
@@ -26,11 +25,45 @@ class Knight
     end
     return to_ret
   end
+
+  def is_valid_square(row, col)
+    return row >= 0 && row <= 7 && col >= 0 && col <= 7
+  end
 end
 
+class Node
+  attr_reader :data, :sequence
+  
+  def initialize(data, sequence)
+    @data = data
+    @sequence = sequence
+  end
+end
 
-k = Knight.new(4, 3)
+def knight_moves(start, last)
+  return if !is_valid_square(start[0], start[1]) || !is_valid_square(last[0], last[1])
+  head = Node.new(start, [start])
+  queue = [head]
 
-puts k.all_moves.join(", ")
+  loop do
+    k = Knight.new(queue[0].data)
+    k.all_moves.each do |elem|
+      queue << Node.new(elem, queue[0].sequence.push(elem))
+      queue.each {|thing| print "#{thing.data}, "}
+      puts ""
+    end
 
-# expects: [[3, 1], [5, 1], [2, 2], [6, 2], [2, 4], [6, 4], [3, 5], [5, 5]]
+    shift = queue.shift
+    if shift.sequence[-1] == last
+      puts "It takes #{shift.sequence.length - 1} moves to go from #{start} to #{last}"
+      shift.sequence.each {|square| puts "\t#{square}"}
+      break
+    end
+  end
+end
+
+def is_valid_square(row, col)
+  return row >= 0 && row <= 7 && col >= 0 && col <= 7
+end
+
+knight_moves([3, 3], [4, 3])
