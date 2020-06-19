@@ -41,6 +41,7 @@ class Node
 end
 
 def knight_moves(start, last)
+  return if !is_valid_square(start[0], start[1]) || !is_valid_square(last[0], last[1])
   queue = [Node.new(start, [start])]
 
   loop do
@@ -57,4 +58,8 @@ def knight_moves(start, last)
       break
     end
   end
+end
+
+def is_valid_square(row, col)
+  return row >= 0 && row <= 7 && col >= 0 && col <= 7
 end
