@@ -19,11 +19,19 @@ class Board
 			row = gets.chomp.to_i;
 			puts "column?"
 			col = gets.chomp.to_i;
-			break if @squares[row][col] == nil
+			break if player_move_helper(player_number, row, col)
 			puts "Invalid choice!"
 		end
-    @open_squares -= 1
-    player_number == 1 ? @squares[row][col] = @player1 : @squares[row][col] = @player2
+	end
+
+	def player_move_helper(player_number, row, col)
+		if @squares[row][col] != nil
+			return false
+		else
+			@open_squares -= 1
+			player_number == 1 ? @squares[row][col] = @player1 : @squares[row][col] = @player2
+			return true
+		end
 	end
 
 	def check_win 
