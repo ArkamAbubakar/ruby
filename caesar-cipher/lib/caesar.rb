@@ -1,3 +1,4 @@
+#lib/caesar.rb
 def caesar_cipher(str, shift)
   toReturn = ""
   letters = str.split("")
@@ -5,7 +6,7 @@ def caesar_cipher(str, shift)
 	lower = "abcdefghijklmnopqrstuvwxyz"
 
   letters.each do |letter|
-    newI = lower.index(letter.downcase) + shift
+    newI = lower.index(letter.downcase).to_i + shift
     if !upper.index(letter).nil?
       toReturn += newI > 25 ? upper[newI - 26] : upper[newI]
     elsif !lower.index(letter).nil?
@@ -13,5 +14,6 @@ def caesar_cipher(str, shift)
     else
       toReturn +=  letter
     end
-  toReturn
   end
+  toReturn
+end
